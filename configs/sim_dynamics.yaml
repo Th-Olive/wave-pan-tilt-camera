@@ -1,0 +1,37 @@
+# Dev scenario with second-order motor dynamics + delays (medium-benchmark
+# flavor). Used for gain tuning and demos; the frozen evaluation lives in
+# benchmark_v1.yaml.
+sim:
+  dt: 0.04
+  n_substeps: 4
+  camera:
+    f: 500.0
+    cx: 320.0
+    cy: 240.0
+    width: 640
+    height: 480
+    margin_px: 64.0
+  pan_tilt:
+    mode: second_order
+    k_u: 20.0
+    k_d: 8.0
+    qdot_max: 2.5
+    pan_limits_deg: [-170.0, 170.0]
+    tilt_limits_deg: [-10.0, 80.0]
+    n_cmd_delay: 2
+    n_obs_delay: 1
+
+scenario:
+  target_W: [-1.0, -0.5, -3.0]
+  duration: 20.0
+  seed: 0
+  initial_joints: aim_at
+  roll_waves:
+    - {amplitude_deg: 6.0, freq_hz: 0.18}
+    - {amplitude_deg: 3.0, freq_hz: 0.35}
+  pitch_waves:
+    - {amplitude_deg: 5.0, freq_hz: 0.22}
+    - {amplitude_deg: 3.0, freq_hz: 0.40}
+
+mismatch:
+  k_u_scale: 0.9

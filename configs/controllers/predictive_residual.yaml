@@ -1,0 +1,26 @@
+# Residual-model predictive controller (M7).
+# MPC and cost sections are IDENTICAL to predictive_nominal.yaml — only the
+# model changes (nominal -> nominal + learned residual), isolating the
+# learning effect. rate_decay matches the nominal MPC so
+# both plan against the same attitude extrapolation.
+mpc:
+  horizon: 10
+  n_samples: 256
+  block: 2
+  sigma: 0.3
+  explore_frac: 0.25
+  seed: 12345
+
+model:
+  rate_decay: 0.7
+  checkpoint: outputs/models/residual_v1.pt   # relative to repo root
+
+cost:
+  w_center: 1.0
+  w_boundary: 20.0
+  tau_boundary: 0.05
+  safe_u: 0.8
+  safe_v: 0.733
+  w_effort: 0.02
+  w_smooth: 0.05
+  oob_penalty: 10000.0

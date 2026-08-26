@@ -1,0 +1,17 @@
+name: wavept
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12  # pinned for a mature scientific stack; run python only inside the
+                 # activated env (or via `conda run -n wavept`) so native DLLs resolve
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - pyyaml
+  - pytest
+  - imageio
+  - imageio-ffmpeg
+  - pip
+  - pytorch-cpu  # M6+: residual model training/inference (CPU only)
+# After creating/activating the env, install the package: pip install -e .

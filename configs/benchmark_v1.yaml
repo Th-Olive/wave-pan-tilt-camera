@@ -1,0 +1,98 @@
+# Frozen benchmark v1 (M3). DO NOT EDIT after the m3 tag — create
+# benchmark_v2.yaml instead. Tuning is allowed on dev_seeds ONLY; test_seeds
+# are reserved for reported results.
+#
+# All tiers use the second-order effort-mode mechanism. SimParams (truth) and
+# the mismatch block (controller belief error) are deliberately separate.
+name: benchmark_v1
+
+tiers:
+  easy:
+    dev_seeds: [0, 1, 2, 3, 4]
+    test_seeds: [1000, 1001, 1002, 1003, 1004]
+    config:
+      sim: &sim_easy
+        dt: 0.04
+        n_substeps: 4
+        camera: {f: 500.0, cx: 320.0, cy: 240.0, width: 640, height: 480, margin_px: 64.0}
+        pan_tilt:
+          mode: second_order
+          k_u: 20.0
+          k_d: 8.0
+          qdot_max: 2.5
+          pan_limits_deg: [-170.0, 170.0]
+          tilt_limits_deg: [-10.0, 80.0]
+          n_cmd_delay: 0
+          n_obs_delay: 0
+      scenario:
+        target_W: [-1.0, -0.5, -3.0]
+        duration: 20.0
+        initial_joints: aim_at
+        roll_waves:
+          - {amplitude_deg: 3.0, freq_hz: 0.20}
+        pitch_waves:
+          - {amplitude_deg: 2.0, freq_hz: 0.13}
+      mismatch: {}
+
+  medium:
+    dev_seeds: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    test_seeds: [1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019]
+    config:
+      sim:
+        <<: *sim_easy
+        pan_tilt:
+          mode: second_order
+          k_u: 20.0
+          k_d: 8.0
+          qdot_max: 2.5
+          pan_limits_deg: [-170.0, 170.0]
+          tilt_limits_deg: [-10.0, 80.0]
+          n_cmd_delay: 2      # 80 ms
+          n_obs_delay: 1      # 40 ms
+      scenario:
+        target_W: [-1.0, -0.5, -3.0]
+        duration: 20.0
+        initial_joints: aim_at
+        roll_waves:
+          - {amplitude_deg: 6.0, freq_hz: 0.18}
+          - {amplitude_deg: 3.0, freq_hz: 0.35}
+        pitch_waves:
+          - {amplitude_deg: 5.0, freq_hz: 0.22}
+          - {amplitude_deg: 3.0, freq_hz: 0.40}
+      mismatch:
+        k_u_scale: 0.9
+
+  hard:
+    dev_seeds: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    test_seeds: [1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029]
+    config:
+      sim:
+        <<: *sim_easy
+        pan_tilt:
+          mode: second_order
+          k_u: 20.0
+          k_d: 8.0
+          qdot_max: 2.5
+          pan_limits_deg: [-170.0, 170.0]
+          tilt_limits_deg: [-10.0, 80.0]
+          n_cmd_delay: 3      # 120 ms
+          n_obs_delay: 2      # 80 ms
+      scenario:
+        target_W: [-1.0, -0.5, -3.0]
+        duration: 20.0
+        initial_joints: aim_at
+        initial_offset_norm: [0.7, 0.0]   # start near the warning boundary
+        roll_waves:
+          - {amplitude_deg: 13.0, freq_hz: 0.18}
+          - {amplitude_deg: 6.5, freq_hz: 0.35}
+          - {amplitude_deg: 4.2, freq_hz: 0.55}
+        pitch_waves:
+          - {amplitude_deg: 10.7, freq_hz: 0.22}
+          - {amplitude_deg: 6.5, freq_hz: 0.40}
+          - {amplitude_deg: 3.7, freq_hz: 0.55}
+        impulses:
+          - {axis: roll, amplitude_deg: 8.0, t0: 8.0, duration: 0.3}
+      mismatch:
+        k_u_scale: 0.8
+        focal_scale: 1.1
+        assumed_depth: 2.5

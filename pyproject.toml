@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wavept"
+version = "0.1.0"
+description = "Field-of-view-constrained predictive tracking for a submerged pan-tilt camera under wave-induced platform motion"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "pandas",
+    "pyyaml",
+    "imageio",
+    "imageio-ffmpeg",
+]
+
+[project.optional-dependencies]
+learn = ["torch"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

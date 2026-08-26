@@ -1,0 +1,32 @@
+# Harder DEV scenario (M2): faster, larger, multi-component waves that push a
+# reactive controller toward the warning boundary. Development use only — the
+# frozen benchmark arrives at M3.
+sim:
+  dt: 0.04
+  n_substeps: 4
+  camera:
+    f: 500.0
+    cx: 320.0
+    cy: 240.0
+    width: 640
+    height: 480
+    margin_px: 64.0
+  pan_tilt:
+    mode: kinematic
+    v_max: 2.0
+    pan_limits_deg: [-170.0, 170.0]
+    tilt_limits_deg: [-10.0, 80.0]
+
+scenario:
+  target_W: [-1.0, -0.5, -3.0]  # nominal pan +26.6 deg, away from pan stops
+  duration: 20.0
+  seed: 0
+  initial_joints: aim_at
+  roll_waves:
+    - {amplitude_deg: 16.0, freq_hz: 0.55}
+    - {amplitude_deg: 6.0, freq_hz: 0.90}
+  pitch_waves:
+    - {amplitude_deg: 14.0, freq_hz: 0.45}
+    - {amplitude_deg: 5.0, freq_hz: 0.80}
+
+mismatch: {}

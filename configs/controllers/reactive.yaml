@@ -1,0 +1,21 @@
+# Reactive baselines (M2). Gains tuned on dev scenarios only (sim_basic,
+# sim_waves_hard_dev, benchmark dev seeds); never on frozen benchmark test
+# seeds.
+#
+# Gains are in the VELOCITY domain. In second_order (effort) mode the factory
+# adapts them via the nominal steady-state map effort = (k_d/k_u) * velocity,
+# so motor-gain mismatch degrades them realistically (M3).
+#
+# pgain uses the anti-diagonal image-motion map locked by tests/test_frames.py
+# (u-error -> tilt, v-error -> pan); the pan loop gain scales with sin(q_t),
+# hence the larger k_pan. jacobian derives the full 2x2 map from nominal
+# geometry at the current state.
+pgain:
+  k_pan: 3.0
+  k_tilt: 1.5
+  alpha: 0.6      # action low-pass, new-sample weight (1.0 disables)
+
+jacobian:
+  lam: 2.0
+  alpha: 0.6
+  fd_step: 1.0e-4

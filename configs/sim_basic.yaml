@@ -1,0 +1,32 @@
+# Basic M1 scenario: mild waves, single point target, kinematic pan-tilt.
+# Angles: keys suffixed _deg are degrees (converted to radians at load).
+sim:
+  dt: 0.04          # 25 Hz control loop
+  n_substeps: 4     # 0.01 s physics substeps
+  camera:
+    f: 500.0
+    cx: 320.0
+    cy: 240.0
+    width: 640
+    height: 480
+    margin_px: 64.0
+  pan_tilt:
+    mode: kinematic
+    v_max: 2.0
+    pan_limits_deg: [-170.0, 170.0]
+    tilt_limits_deg: [-10.0, 80.0]
+
+scenario:
+  # Offset from nadir to avoid the pan singularity; this azimuth puts nominal
+  # pan at +26.6 deg, far from the +/-170 deg stops (the mirrored target would
+  # put it at -153 deg, only 17 deg from a stop).
+  target_W: [-1.0, -0.5, -3.0]
+  duration: 20.0
+  seed: 0
+  initial_joints: aim_at
+  roll_waves:
+    - {amplitude_deg: 3.0, freq_hz: 0.20}
+  pitch_waves:
+    - {amplitude_deg: 2.0, freq_hz: 0.13}
+
+mismatch: {}

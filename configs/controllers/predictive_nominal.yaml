@@ -1,0 +1,23 @@
+# Nominal-model predictive controller (M4). Tuned on dev seeds only.
+# MPC hyperparameters are shared verbatim by the residual-model MPC (M7) —
+# only the model changes there, to isolate the learning effect.
+mpc:
+  horizon: 10
+  n_samples: 256
+  block: 2
+  sigma: 0.3
+  explore_frac: 0.25
+  seed: 12345
+
+model:
+  rate_decay: 0.7   # damps attitude-rate extrapolation (dev sweep: 1.0->0.40, 0.85->0.60, 0.7->0.70 hard retention)
+
+cost:
+  w_center: 1.0
+  w_boundary: 20.0
+  tau_boundary: 0.05
+  safe_u: 0.8
+  safe_v: 0.733
+  w_effort: 0.02
+  w_smooth: 0.05
+  oob_penalty: 10000.0  # (avoid 1.0e4: PyYAML loads unsigned exponents as strings)
